@@ -1,0 +1,10 @@
+import React from 'react';
+
+export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return (
+    <>
+      {children}
+      {/* <Toaster /> Placeholder for shadcn toaster */}
+    </>
+  );
+};
