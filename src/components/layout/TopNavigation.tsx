@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom"
 import { Bell, Menu, User, Search } from "lucide-react"
+import { useAuthStore } from "../../store/useAuthStore"
 
 export default function TopNavigation() {
+  const user = useAuthStore(state => state.user)
   return (
     <header className="sticky top-0 z-40 flex h-14 lg:h-[60px] items-center gap-4 border-b bg-background/95 backdrop-blur px-4 sm:px-6">
       <button className="lg:hidden shrink-0">
@@ -27,8 +29,12 @@ export default function TopNavigation() {
             3
           </span>
         </button>
-        <Link to="/profile" className="flex h-8 w-8 items-center justify-center rounded-full border bg-secondary shrink-0">
-          <User className="h-4 w-4 text-secondary-foreground" />
+        <Link to="/profile" className="flex h-8 w-8 items-center justify-center rounded-full border bg-secondary shrink-0 overflow-hidden">
+          {user?.profileImage ? (
+            <img src={user.profileImage} alt={user.name || "Profile"} className="h-full w-full object-cover" />
+          ) : (
+            <User className="h-4 w-4 text-secondary-foreground" />
+          )}
         </Link>
       </div>
     </header>

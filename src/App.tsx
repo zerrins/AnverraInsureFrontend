@@ -17,6 +17,7 @@ import SignupPage from './pages/auth/SignupPage';
 import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
 import UnauthorizedPage from './pages/auth/UnauthorizedPage';
 import SessionExpiredPage from './pages/auth/SessionExpiredPage';
+import MyProfilePage from './pages/profile/MyProfilePage';
 
 const DashboardPlaceholder = () => <div className="p-8"><h1 className="text-2xl font-bold">Dashboard</h1><p>Welcome to AnverraGlobal Platform.</p></div>;
 
@@ -46,6 +47,7 @@ function App() {
                       <Route element={<ProtectedRoute />}>
                         <Route element={<AppLayout />}>
                           <Route path="/" element={<DashboardPlaceholder />} />
+                          <Route path="/profile" element={<MyProfilePage />} />
                         </Route>
                       </Route>
                       

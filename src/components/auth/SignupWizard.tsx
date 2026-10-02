@@ -109,7 +109,10 @@ export default function SignupWizard() {
         <OtpForm 
           purpose="REGISTRATION" 
           onVerify={(otp) => handleSignup(otp)} 
+          initialPhone={formData?.phone || ''}
         />
+
+
       )}
     </div>
   );

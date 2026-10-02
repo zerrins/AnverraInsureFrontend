@@ -13,9 +13,9 @@ const otpSchema = z.object({
 
 type OtpFormValues = z.infer<typeof otpSchema>;
 
-export default function OtpForm({ purpose, onVerify }: { purpose: OtpPurpose, onVerify?: (otp: string) => void }) {
-  const [phone, setPhone] = useState('');
-  const [step, setStep] = useState<1 | 2>(1); // 1 = enter phone, 2 = enter otp
+export default function OtpForm({ purpose, onVerify, initialPhone = '' }: { purpose: OtpPurpose, onVerify?: (otp: string) => void, initialPhone?: string }) {
+  const [phone, setPhone] = useState(initialPhone);
+  const [step, setStep] = useState<1 | 2>(initialPhone ? 2 : 1);
   const [errorMsg, setErrorMsg] = useState('');
   const [isSending, setIsSending] = useState(false);
   
@@ -27,6 +27,23 @@ export default function OtpForm({ purpose, onVerify }: { purpose: OtpPurpose, on
   });
 
   useEffect(() => {
+    if (initialPhone) {
+      setIsSending(true);
+      authApi.sendOtp({ phone: initialPhone, purpose })
+        .then(() => {
+          setTimer();
+        })
+        .catch((err: any) => {
+          setErrorMsg(err.response?.data?.error || err.message || 'Failed to send OTP');
+        })
+        .finally(() => {
+          setIsSending(false);
+        });
+    }
+  }, [initialPhone, purpose, setTimer]);
+
+  useEffect(() => {
+
     let interval: any;
     if (timer > 0) {
       interval = setInterval(() => decrementOtpTimer(), 1000);
